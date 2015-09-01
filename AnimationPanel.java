@@ -13,7 +13,7 @@ import java.awt.event.*;
 
 public class AnimationPanel extends JComponent implements Runnable {
 	private Thread animationThread = null;	// the thread for animation
-	private MovingShape s;		// the arraylist to store all shapes
+	private ArrayList<MovingShape> s = new ArrayList<MovingShape>(); // the arraylist to store all shapes with variable s 
 	private int currentShapeType, // the current shape type
 		currentPath, 				// the current path type
 		currentWidth = 50,			// the current width of a shape
@@ -24,12 +24,6 @@ public class AnimationPanel extends JComponent implements Runnable {
 	 /** Constructor of the AnimationPanel
 		*/
 	public AnimationPanel() {
-		// remove these lines
-		Insets insets = getInsets();
-		int marginWidth = getWidth() - insets.left - insets.right;
-		int marginHeight = getHeight() - insets.top - insets.bottom;
-		s = new MovingRectangle(10, 10, currentWidth, currentHeight, marginWidth, marginHeight, currentPath);
-		//
 		popup = new JPopupMenu(); //create the popup menu
 		makePopupMenu();
 
@@ -51,12 +45,15 @@ public class AnimationPanel extends JComponent implements Runnable {
 			public void mouseClicked( MouseEvent e ) {
 				if (animationThread != null) {	// if the animation has started, then
 					boolean found = false;
-					if ( s.contains( e.getPoint()) ) { // if the mousepoint is within a shape, then set the shape to be selected/deselected
-						found = true;
-						s.setSelected( ! s.isSelected() );
+					for(MovingShape shape: s) {
+						if ( shape.contains( e.getPoint()) ) { // if the mousepoint is within a shape, then set the shape to be selected/deselected
+							found = true;
+							shape.setSelected( ! s.isSelected() );
+						}
 					}
 					if (! found) createNewShape(e.getX(), e.getY()); // if the mousepoint is not within a shape, then create a new one according to the mouse position
 				}
+				
 			}
 		});
 	}
@@ -72,8 +69,8 @@ public class AnimationPanel extends JComponent implements Runnable {
 		int marginHeight = getHeight() - insets.top - insets.bottom;
 		// create a new shape dependent on all current properties and the mouse position
 		switch (currentShapeType) {
-			case 0: { //rectnage
-				s =  new MovingRectangle(x, y, currentWidth, currentHeight, marginWidth, marginHeight, currentPath);
+			case 0: { //rectangle
+				s.add(new MovingRectangle(x, y, currentWidth, currentHeight, marginWidth, marginHeight, currentPath));
 				break;
 			}
 		}
@@ -91,8 +88,10 @@ public class AnimationPanel extends JComponent implements Runnable {
 	 */
 	public void setCurrentPathType(int t) {
 		currentPath = t;
-		if ( s.isSelected()) {
-			s.setPath(currentPath);
+		for(MovingShape shape: s) {
+			if (shape.isSelected()) {
+				shape.setPath(currentPath);
+			}
 		}
 	}
 
@@ -101,8 +100,10 @@ public class AnimationPanel extends JComponent implements Runnable {
 	 */
 	public void setCurrentWidth(int w) {
 		currentWidth = w;
-		if ( s.isSelected()) {
-			s.setWidth(currentWidth);
+		for(MovingShape shape: s) {
+			if ( shape.isSelected()) {
+				shape.setWidth(currentWidth);
+			}
 		}
 	}
 
@@ -111,8 +112,10 @@ public class AnimationPanel extends JComponent implements Runnable {
 	 */
 	public void setCurrentHeight(int h) {
 		currentHeight = h;
-		if ( s.isSelected()) {
-			s.setHeight(currentHeight);
+		for(MovingShape shape: s) {
+			if ( shape.isSelected()) {
+				shape.setHeight(currentHeight);
+			}
 		}
 	}
 
@@ -133,7 +136,8 @@ public class AnimationPanel extends JComponent implements Runnable {
  	/** remove all shapes from our vector
 	 */
 	public void clearAllShapes() {
-		//complete this
+		// changes done to remove all shapes
+		s.clear();
 	}
 
 	/**	update the painting area
@@ -147,8 +151,10 @@ public class AnimationPanel extends JComponent implements Runnable {
 	 * @param g	the Graphics control
 	 */
 	public void paintComponent(Graphics g) {
-		s.move();
-		s.draw(g);
+		for(MovingShape shape: s) {
+			shape.move();
+			shape.draw(g);
+		}
 	}
 
 	/** reset the margin size of all shapes from our vector
@@ -157,7 +163,9 @@ public class AnimationPanel extends JComponent implements Runnable {
 		Insets insets = getInsets();
 		int marginWidth = getWidth() - insets.left - insets.right;
 		int marginHeight = getHeight() - insets.top - insets.bottom ;
-		s.setMarginSize(marginWidth, marginHeight);
+		for(MovingShape shape: s) {
+			s.setMarginSize(marginWidth, marginHeight);
+		}
 	}
 
 
