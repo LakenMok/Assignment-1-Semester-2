@@ -137,7 +137,7 @@ public class AnimationPanel extends JComponent implements Runnable {
 	 */
 	public void clearAllShapes() {
 		// changes done to remove all shapes
-		s.removeAll(ArrayList<MovingShape> s);
+		s.clear();
 	}
 
 	/**	update the painting area
