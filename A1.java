@@ -107,20 +107,29 @@ public class A1 extends JFrame {
 		});
 		JButton fillButton = new JButton("Fill");
 		fillButton.setToolTipText("Set Fill Color");
-		fillButton.setForeground(Color.blue);
+		fillButton.setForeground(panel.getCurrentFillColor());
+		
 		fillButton.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e) {
-				Color newColor = JColorChooser.showDialog(panel, "Fill Color", null);
+				Color newColor = JColorChooser.showDialog(panel, "Fill Color", panel.getCurrentFillColor());
 				// complete this
+				if(newColor != null) {
+					panel.setCurrentFillColor(newColor);
+					fillButton.setForeground(newColor);
+				}
 			}
 		});
 		JButton borderButton = new JButton("Border");
 		borderButton.setToolTipText("Set Border Color");
-		borderButton.setForeground(Color.black);
+		borderButton.setForeground(panel.getCurrentBorderColor());
 		borderButton.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e) {
-				Color newColor = JColorChooser.showDialog(panel, "Border Color", null);
+				Color newColor = JColorChooser.showDialog(panel, "Border Color", panel.getCurrentBorderColor());
 				// complete this
+				if(newColor != null) {
+					panel.setCurrentBorderColor(newColor);
+					borderButton.setForeground(newColor);
+				}
 			}
 		});
 		JPanel toolsPanel = new JPanel();

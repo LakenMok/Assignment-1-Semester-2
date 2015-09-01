@@ -18,6 +18,8 @@ public class AnimationPanel extends JComponent implements Runnable {
 		currentPath, 				// the current path type
 		currentWidth = 50,			// the current width of a shape
 		currentHeight = 20;			// the current height of a shape
+	private Color currentFillColor = Color.blue; // the default/current fill color
+	private Color currentBorderColor = Color.black; // the default/current border color
 	private int delay = 30; 		// the current animation speed
 	JPopupMenu popup;				// popup menu
 
@@ -48,7 +50,7 @@ public class AnimationPanel extends JComponent implements Runnable {
 					for(MovingShape shape: s) {
 						if ( shape.contains( e.getPoint()) ) { // if the mousepoint is within a shape, then set the shape to be selected/deselected
 							found = true;
-							shape.setSelected( ! s.isSelected() );
+							shape.setSelected( ! shape.isSelected() );
 						}
 					}
 					if (! found) createNewShape(e.getX(), e.getY()); // if the mousepoint is not within a shape, then create a new one according to the mouse position
@@ -71,6 +73,8 @@ public class AnimationPanel extends JComponent implements Runnable {
 		switch (currentShapeType) {
 			case 0: { //rectangle
 				s.add(new MovingRectangle(x, y, currentWidth, currentHeight, marginWidth, marginHeight, currentPath));
+				s.get(s.size() - 1).setFillColor(currentFillColor);
+				s.get(s.size() - 1).setBorderColor(currentBorderColor);
 				break;
 			}
 		}
@@ -119,6 +123,30 @@ public class AnimationPanel extends JComponent implements Runnable {
 		}
 	}
 
+	/** set the current fill color and the fill color for all currently selected shapes
+	 * @param c the new fill color value
+	 */
+	public void setCurrentFillColor(Color c) {
+		currentFillColor = c;
+		for(MovingShape shape: s) {
+			if (shape.isSelected()) {
+				shape.setFillColor(currentFillColor);
+			}
+		}
+	}
+	
+	/** set the current border color and the border color for all currently selected shapes
+	 * @param c the new border color value
+	 */
+	public void setCurrentBorderColor(Color c) {
+		currentBorderColor = c;
+		for(MovingShape shape: s) {
+			if(shape.isSelected()) {
+				shape.setBorderColor(currentBorderColor);
+			}
+		}
+	}
+	
 	/** get the current width
 	 * @return currentWidth - the width value
 	 */
@@ -131,6 +159,21 @@ public class AnimationPanel extends JComponent implements Runnable {
 	 */
 	public int getCurrentHeight() {
 		return currentHeight;
+	}
+	
+	/** get the current Fill Color
+	 * @return currentFillColor = Fill Color
+	 */
+	public Color getCurrentFillColor() {
+		return currentFillColor;
+		
+	}
+	
+	/** get the current Border Color
+	 * @return currentBorderColor = Border Color
+	 */
+	public Color getCurrentBorderColor() {
+		return currentBorderColor;
 	}
 
  	/** remove all shapes from our vector
@@ -164,7 +207,7 @@ public class AnimationPanel extends JComponent implements Runnable {
 		int marginWidth = getWidth() - insets.left - insets.right;
 		int marginHeight = getHeight() - insets.top - insets.bottom ;
 		for(MovingShape shape: s) {
-			s.setMarginSize(marginWidth, marginHeight);
+			shape.setMarginSize(marginWidth, marginHeight);
 		}
 	}
 

@@ -13,7 +13,7 @@ public class MovingRectangle extends MovingShape {
 		super();
 	}
 
-	/** constuctor to create a rectangle shape
+	/** constructor to create a rectangle shape
 	 */
 	public MovingRectangle(int x, int y, int w, int h,  int mw, int mh, int pathType) {
 		super(x ,y ,w, h ,mw ,mh ,pathType);
@@ -24,9 +24,9 @@ public class MovingRectangle extends MovingShape {
 	 *	@param g	the Graphics control
 	 */
 	public void draw(Graphics g) {
-		g.setColor(Color.blue);
+		g.setColor(fillColor);
 		g.fillRect(p.x, p.y, width, height);
-		g.setColor(Color.black);
+		g.setColor(borderColor);
 		g.drawRect(p.x, p.y, width, height);
 		drawHandles(g);
 	}

@@ -10,11 +10,13 @@ import java.awt.*;
 public abstract class MovingShape {
 
 	public int marginWidth, marginHeight; // the margin of the animation panel area
-	protected Point p; 					// the top left coner of shapes
+	protected Point p; 					// the top left corner of shapes
 	protected int width;			// the width of shapes
 	protected int height;			// the height of shapes
 	protected MovingPath path;			// the moving path of shapes
 	protected boolean selected = false;	// draw handles if selected
+	protected Color fillColor;			// the fillColor 
+	protected Color borderColor;		// the borderColor 
 
 	/** constuctor to create a shape with default values
 	 */
@@ -38,6 +40,7 @@ public abstract class MovingShape {
 		width = w;
 		height = h;
 		setPath (pathType);
+		
 	}
 
 	/** Return the x-coordinate of the shape.
@@ -70,7 +73,32 @@ public abstract class MovingShape {
 	 * @param h 	the height value
 	 */
 	public void setHeight(int h) { height = h; }
+	
+	/** Set the fill color of the shape
+	 * @param c the value of the fill color
+	 */
+	public void setFillColor(Color c) { fillColor = c; }
+	
+	/** Set the border color of the shape
+	 * @param c the value of the border color
+	 */
+	public void setBorderColor(Color c) { borderColor = c; }
 
+	/** return the fill color of the shape
+	 * 
+	 * @return fillColor - current fillColor 
+	 */
+	public Color getFillColor() {
+		return fillColor;
+	}
+	
+	/** return the border color of the shape
+	 * 
+	 * @return borderColor - current borderColor
+	 */
+	public Color getBorderColor() {
+		return borderColor;
+	}
 	/**
 	 * Return a string representation of the shape, containing
 	 * the String representation of each element.
