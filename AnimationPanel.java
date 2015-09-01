@@ -13,7 +13,7 @@ import java.awt.event.*;
 
 public class AnimationPanel extends JComponent implements Runnable {
 	private Thread animationThread = null;	// the thread for animation
-	private ArrayList<MovingShape> s new ArrayList<MovingShape>(); // the arraylist to store all shapes with variable s 
+	private ArrayList<MovingShape> s = new ArrayList<MovingShape>(); // the arraylist to store all shapes with variable s 
 	private int currentShapeType, // the current shape type
 		currentPath, 				// the current path type
 		currentWidth = 50,			// the current width of a shape
